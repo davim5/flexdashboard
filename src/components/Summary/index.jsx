@@ -1,25 +1,46 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { TransactionsContext } from '../../contexts/TransactionsContext';
 import { Container, Card } from './styles';
 
-const Summary = (props) => {
+const Summary = () => {
+    const { transactions } = useContext(TransactionsContext);
+
+    const summary = transactions.reduce((acc, transaction) => {
+        if(transaction.type === 'deposit') 
+        {
+            acc.deposits += transaction.value;
+            acc.total += transaction.value;
+        }
+        else
+        {
+            acc.withdraws += transaction.value;
+            acc.total -= transaction.value;
+        }
+
+        return acc;
+    }, {
+        deposits: 0,
+        withdraws: 0,
+        total: 0,
+    });
 
     return(
         <Container>
             <Card>
-                <h6>Total de Conversas</h6>
-                <strong>300</strong>
+                <h6>Depósitos</h6>
+                <strong>R$ {summary.deposits}</strong>
             </Card>
             <Card>
-                <h6>Med. msg. por conversa</h6>
-                <strong>6</strong>
+                <h6>Saques</h6>
+                <strong>R$ {summary.withdraws}</strong>
             </Card>
             <Card>
-                <h6>Máximo de conversas</h6>
-                <strong>200</strong>
+                <h6>Média Mensal</h6>
+                <strong>R$ 200</strong>
             </Card>
             <Card>
-                <h6>Weak understanding</h6>
-                <strong>24</strong>
+                <h6>Saldo</h6>
+                <strong>R$ {summary.total}</strong>
             </Card>
         </Container>
     );

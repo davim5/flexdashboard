@@ -9,6 +9,7 @@ export const Container = styled.div`
     padding: 2vh 0;
     width: 86vw;
     background-color: #fff;
+    box-shadow: -0.5px 2px 6px rgba(0,0,0,0.1);
 `;
 
 export const Card = styled.div`

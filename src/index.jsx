@@ -3,51 +3,55 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import GlobalStyle from './styles/global';
 
-import { createServer } from 'miragejs';
+import { createServer, Model } from 'miragejs';
 
 createServer({
-  routes() {
-    this.namespace = 'api';
+  models: {
+    transaction: Model,
+  },
 
-    this.get('/conversations', () => {
-      return [
+  seeds(server) {
+    server.db.loadData({
+      transactions: [
         {
           id: 1,
-          type: 'conversations',
-          amount:'215',
-          date: new Date(2022,1),
+          title:'Salario',
+          value: 8000,
+          date: new Date('01-01-2022'),
+          type:'deposit' ,
+          category: 'Salario'
         },
         {
           id: 2,
-          type: 'conversations',
-          amount:'312',
-          date: new Date(2022,2),
+          title:'Aluguel',
+          value: 1000,
+          date: new Date('02-01-2022'),
+          type:'withdraw' ,
+          category: 'Moradia'
         },
         {
           id: 3,
-          type: 'conversations',
-          amount:'180',
-          date: new Date(2022,3),
-        },
-        {
-          id: 4,
-          type: 'conversations',
-          amount:'239',
-          date: new Date(2022,4),
-        },
-        {
-          id: 5,
-          type: 'conversations',
-          amount:'287',
-          date: new Date(2022,5),
-        },
-        {
-          id: 6,
-          type: 'conversations',
-          amount:'301',
-          date: new Date(2022,6),
+          title:'Condominio',
+          value: 500,
+          date: new Date('02-01-2022'),
+          type:'withdraw' ,
+          category: 'Moradia'
         },
       ]
+    })
+  },
+
+  routes() {
+    this.namespace = 'api';
+
+    this.get('/transactions', () => {
+      return this.schema.all('transaction');
+    });
+
+    this.post('/transactions', (schema, request) => {
+      const data = JSON.parse(request.requestBody);
+
+      return schema.create('transaction', data);
     })
   }
 })

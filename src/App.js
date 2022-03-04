@@ -1,13 +1,32 @@
 import Header from "./components/Header";
 import Main from "./components/Main";
-import { ConversationsContext } from "./contexts/ConversationsContext";
+import { NewTransactionModal } from "./components/NewTransactionModal";
+import { TransactionsProvider } from "./contexts/TransactionsContext";
+import { useState } from 'react';
+
 
 function App() {
+  const [isNewTransactionModalOpen,setIsNewTransactionModalOpen] = useState(false);
+
+  function handleOpenNewTransactionModal() {
+      setIsNewTransactionModalOpen(true);
+  }
+
+  function handleCloseNewTransactionModal() {
+      setIsNewTransactionModalOpen(false);
+  }
+
   return (
-    <ConversationsContext.Provider value={[]}>
-      <Header/>
+    <TransactionsProvider>
+      <Header handleOpenNewTransactionModal={handleOpenNewTransactionModal}/>
+
       <Main/>
-    </ConversationsContext.Provider>
+      
+      <NewTransactionModal
+      isOpen={isNewTransactionModalOpen}
+      onRequestClose={handleCloseNewTransactionModal}
+      />
+    </TransactionsProvider>
   );
 }
 
