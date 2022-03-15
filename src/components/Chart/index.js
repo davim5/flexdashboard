@@ -1,14 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TransactionsContext } from "../../contexts/TransactionsContext";
 import { Line, Doughnut } from "react-chartjs-2";
 
-import { Container } from "./styles";
+import { Container, ChartContainer } from "./styles";
 
 const values = {
     values: [5000, 6000, 10000, 8000],
 };
 
 const Chart = () => {
+    const [filter, setFilter] = useState('year');
 
     const { transactions } = useContext(TransactionsContext);
 
@@ -34,7 +35,13 @@ const Chart = () => {
             withdrawValues[index] += transaction.value;
     });
 
+    const lineDataLabelYear = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho",
+    "Agosto","Setembro","Outubro","Novembro","Dezembro"];
 
+    const lineDataLabelMonth = ["01","02","03","04","05","06","07","08","09"
+    ,"10","11","12","13","14","15","16","17","18","19","20","21","22","23","24",
+    "25","26","27","28","29","30"];
+    
     const lineData = {
         labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho",
             "Agosto","Setembro","Outubro","Novembro","Dezembro"],
@@ -62,6 +69,10 @@ const Chart = () => {
     console.log(depositValues);
     console.log(withdrawValues);
 
+    useEffect(()=>{
+        console.log(filter);
+    },[filter])
+
     const doughnutData = {
         labels: transactionCategories,
         datasets: [{
@@ -76,23 +87,43 @@ const Chart = () => {
             fill: false,
         }],
     }
+
+    function handleChange(event)
+    {   
+        setFilter(event.target.value);
+    }
+
     return (
-        <>
-            <Container>
-                <Line
+        <Container>
+        <select value={filter} onChange={handleChange}>
+            <option value="day"> Dia </option>
+            <option value="month"> Mês </option>
+            <option value="year"> Ano </option>
+        </select>
+
+        <select value="months">
+            {lineDataLabelYear.map((month) => <option value="">{month}</option>  )}
+        </select>
+            <ChartContainer>
+                { filter === 'year' ? (<Line
                     data={lineData}
                     width={5}
                     height={1}
-                />
-            </Container>
-            <Container>
+                />) : <h1>Bunda</h1>}
+                {/* <Line
+                    data={lineData}
+                    width={5}
+                    height={1}
+                /> */}
+            </ChartContainer>
+            <ChartContainer>
                 <Doughnut
                     data={doughnutData}
                     width={5}
                     height={1}
                 />
-            </Container>
-        </>
+            </ChartContainer>
+        </Container>
     )
 }
 
