@@ -30,10 +30,18 @@ export const ChartContainer = styled.div`
 `;
 
 
-export const DoughnutChartContainer = styled.div`
+export const DoughnutBox = styled.div`
 
-    width: 42rem;
+    width: 40rem;
     height: 300px;
     background-color: #fff;
     box-shadow: -0.5px 2px 6px rgba(0,0,0,0.2);
+`;
+
+export const DoughnutChartCointainer = styled.div`
+    margin-top: 2vh;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
 `;

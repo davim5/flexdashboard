@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { TransactionsContext } from "../../contexts/TransactionsContext";
 import { Line, Doughnut } from "react-chartjs-2";
 
-import { Container, ChartContainer, DoughnutChartContainer } from "./styles";
+import { Container, ChartContainer, DoughnutBox, DoughnutChartCointainer } from "./styles";
 
 const values = {
     values: [5000, 6000, 10000, 8000],
@@ -89,11 +89,6 @@ const Chart = () => {
         }],
     }
 
-    function handleChangeFilter(event)
-    {   
-        setFilter(event.target.value);
-    }
-
     function lineDataUpdater(labels){
         return {
             labels: labels,
@@ -117,15 +112,18 @@ const Chart = () => {
         }
     }
 
-    console.log('Ano:'+year);
-    console.log('Mês:'+month);
-    console.log('Dia:'+day);
+    const options = {
+        title: {
+            display: true,
+            text: 'Custom Chart Title'
+        }
+    }
 
     return (
         <Container>
         <select
         value={filter} 
-        onChange={handleChangeFilter}
+        onChange={(event) => setFilter(event.target.value)}
         >
             <option value="day"> Dia </option>
             <option value="month"> Mês </option>
@@ -155,40 +153,76 @@ const Chart = () => {
 
             <ChartContainer>
                 { filter === 'year' &&
-                 (<Line
+                 (
+                 <Line
+                    options = {{
+                        title: {
+                            display: true,
+                            text: "Saldo anual",
+                            fontSize: 14
+                        }
+                    }}
                     data={lineDataUpdater(MonthsArray)}
                     width={5}
                     height={1}
                 />)}
                 { filter === 'month' &&
                  (<Line
+                    options = {{
+                        title: {
+                            display: true,
+                            text: "Saldo mensal",
+                            fontSize: 14
+                        }
+                    }}
                     data={lineDataUpdater(DayArray)}
                     width={5}
                     height={1}
                 />)}
-                { filter === 'days' &&
+                { filter === 'day' &&
                  (<Line
+                    options = {{
+                        title: {
+                            display: true,
+                            text: "Saldo diário",
+                            fontSize: 14
+                        }
+                    }}
                     data={lineDataUpdater(hourArray)}
                     width={5}
                     height={1}
                 />)}
             </ChartContainer>
-            <div style={{color: "#FF0000", display: "flex"}}>
-                <DoughnutChartContainer>
+            <DoughnutChartCointainer>
+                <DoughnutBox>
                     <Doughnut
+                        options = {{
+                            title: {
+                                display: true,
+                                text: "Ganhos por categoria",
+                                fontSize: 14
+                            }
+                        }}
                         data={doughnutData}
                         width={5}
                         height={2}
                         />
-                </DoughnutChartContainer>
-                <DoughnutChartContainer>
+                </DoughnutBox>
+                <DoughnutBox>
                     <Doughnut
+                        options = {{
+                            title: {
+                                display: true,
+                                text: "Gastos por categoria",
+                                fontSize: 14
+                            }
+                        }}
                         data={doughnutData}
                         width={5}
                         height={2}
                         />
-                </DoughnutChartContainer>
-            </div>
+                </DoughnutBox>
+            </DoughnutChartCointainer>
         </Container>
     )
 }
