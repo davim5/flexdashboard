@@ -63,7 +63,7 @@ export function NewTransactionModal({isOpen,onRequestClose}) {
                 />
 
                 <input
-                    type="date"
+                    type="datetime-local"
                     placeholder= "Data"
                     value={date}
                     onChange={event => setDate(event.target.value)}
