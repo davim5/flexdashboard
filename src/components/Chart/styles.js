@@ -28,3 +28,12 @@ export const ChartContainer = styled.div`
     background-color: #fff;
     box-shadow: -0.5px 2px 6px rgba(0,0,0,0.2);
 `;
+
+
+export const DoughnutChartContainer = styled.div`
+
+    width: 42rem;
+    height: 300px;
+    background-color: #fff;
+    box-shadow: -0.5px 2px 6px rgba(0,0,0,0.2);
+`;
