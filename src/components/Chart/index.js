@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { TransactionsContext } from "../../contexts/TransactionsContext";
 import { Line, Doughnut } from "react-chartjs-2";
 
@@ -38,6 +38,9 @@ const Chart = () => {
             withdrawValues[index] += transaction.value;
     });
 
+    
+
+    
     const MonthsArray = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho",
     "Agosto","Setembro","Outubro","Novembro","Dezembro"];
 
@@ -89,7 +92,8 @@ const Chart = () => {
         }],
     }
 
-    function lineDataUpdater(labels){
+    // async function lineDataUpdater(labels, filterValues())
+    function lineDataUpdater(labels, transactionsValues){
         return {
             labels: labels,
             datasets: [
@@ -109,13 +113,6 @@ const Chart = () => {
                 }
     
             ],
-        }
-    }
-
-    const options = {
-        title: {
-            display: true,
-            text: 'Custom Chart Title'
         }
     }
 
