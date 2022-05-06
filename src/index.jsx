@@ -5,9 +5,12 @@ import GlobalStyle from './styles/global';
 
 import { createServer, Model } from 'miragejs';
 
+import { conversationsData } from './components/HeatMap/data';
+
 createServer({
   models: {
     transaction: Model,
+    conversation: Model,
   },
 
   seeds(server) {
@@ -37,7 +40,8 @@ createServer({
           type:'withdraw' ,
           category: 'Moradia'
         },
-      ]
+      ],
+      conversations: conversationsData
     })
   },
 
@@ -53,6 +57,10 @@ createServer({
 
       return schema.create('transaction', data);
     })
+
+    this.get('/conversations', () => {
+      return this.schema.all('conversation');
+    });
   }
 })
 

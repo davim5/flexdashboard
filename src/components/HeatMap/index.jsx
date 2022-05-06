@@ -12,6 +12,8 @@ import {
 import { scaleQuantize } from "d3-scale";
 import { geoCentroid } from "d3-geo" ;
 
+import { api } from '../../services/api'
+
 import Mapa from "../../BrasilMap.json";
 
 const geoUrl = Mapa;
@@ -33,6 +35,10 @@ const colorScale = scaleQuantize()
 const HeatMap = () => {
   const [data, setData] = useState([]);
 
+  useEffect(()=>{
+    api.get('conversations')
+    .then(response => setData(response.data.conversations));
+},[]);
 
   // Array com id dos Estados que não cabem no mapa
   const offsets = [
@@ -45,58 +51,6 @@ const HeatMap = () => {
     "RJ",
     "DF"
   ];
-
-  // eslint-disable-next-line 
-  const dataMap = [
-    {
-      id: "AC",
-      chats: 10,
-    },
-    {
-      id:"CE",
-      chats: 10,
-    },
-    {
-      id:"BA",
-      chats: 7,
-    },
-    {
-      id:"PE",
-      chats: 3,
-    },
-    {
-      id:"RO",
-      chats: 4,
-    },
-    {
-      id:"SP",
-      chats: 2,
-    },
-    {
-      id:"RJ",
-      chats: 1,
-    },
-    {
-      id:"AM",
-      chats: 5,
-    },
-    {
-      id:"GO",
-      chats: 3,
-    },
-    {
-      id: "DF",
-      chats: 7,
-    },
-    {
-      id: "RS",
-      chats: 0,
-    }
-  ];
-
-  useEffect(() => {
-    setData(dataMap);
-  }, [dataMap]);
 
   return (
     <Container>
