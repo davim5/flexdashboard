@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
     width: 40vw;
     height: 550px;
-    background-color: #fff;
+    background-color: #D1D1D1;
     box-shadow: -0.5px 2px 6px rgba(0,0,0,0.2);
 
     position: relative;
@@ -15,7 +15,7 @@ export const Container = styled.div`
         
         /* Posição do mapa dentro do container */
         path, text {
-            transform: translateX(500px) translateY(-140px);
+            transform: translateX(480px) translateY(-160px);
         }
     }
 

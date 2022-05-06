@@ -33,16 +33,18 @@ const colorScale = scaleQuantize()
 const HeatMap = () => {
   const [data, setData] = useState([]);
 
-  const offsets = {
-    RN: [50, -8],
-    PB: [34, 2],
-    PE: [30, -1],
-    AL: [28, 2],
-    SE: [35, 10],
-    ES: [34, 1],
-    RJ: [33, 0],
-    DF: [47, 10],
-  };
+
+  // Array com id dos Estados que não cabem no mapa
+  const offsets = [
+    "RN",
+    "PB",
+    "PE",
+    "AL",
+    "SE",
+    "ES",
+    "RJ",
+    "DF"
+  ];
 
   // eslint-disable-next-line 
   const dataMap = [
@@ -52,7 +54,7 @@ const HeatMap = () => {
     },
     {
       id:"CE",
-      chats: 5,
+      chats: 10,
     },
     {
       id:"BA",
@@ -78,6 +80,18 @@ const HeatMap = () => {
       id:"AM",
       chats: 5,
     },
+    {
+      id:"GO",
+      chats: 3,
+    },
+    {
+      id: "DF",
+      chats: 7,
+    },
+    {
+      id: "RS",
+      chats: 0,
+    }
   ];
 
   useEffect(() => {
@@ -97,7 +111,7 @@ const HeatMap = () => {
         }}
         projectionConfig={{ scale: 600 }}
       >
-        <ZoomableGroup zoom={1}>
+        {/* <ZoomableGroup zoom={1}> */}
           <Geographies
           stroke="#f8f8f8"
           geography={geoUrl}
@@ -107,7 +121,6 @@ const HeatMap = () => {
               geographies.map((geo) => {
                 const cur = data.find((s) => s.id === geo.id);
                 const centroid = geoCentroid(geo);
-                console.log("centroid: ",centroid)
                 return (
                   <>
                   <Geography
@@ -115,49 +128,65 @@ const HeatMap = () => {
                     geography={geo}
                     fill={colorScale(cur ? cur.chats : "#EEE")}
                     style={{
-                      // default: {
-                      //   fill: "#ECEFF1",
-                      //   stroke: "#607D8B",
-                      //   strokeWidth: 0.5,
-                      //   outline: "none",
-                      // },
+                      default: {
+                        outline: "none",
+                      },
                       hover: {
                         fill: colorScale(cur ? cur.chats : "#EEE"),
                         stroke: "#f8f8f8",
                         strokeWidth: 3,
                         outline: "none",
                       },
-                      // pressed: {
-                      //   fill: "#FF5722",
-                      //   stroke: "#607D8B",
-                      //   strokeWidth: 1,
-                      //   outline: "none",
-                      // },
+                      pressed: {
+                        outline: "none",
+                      },
                     }}
                   >
                  
                   </Geography>
-                   <Annotation
+                  { offsets.find((s) => s === geo.id) ? 
+                  // Estados que não cabem no mapa
+                   (<Annotation
+                    subject={centroid}
+                    dx={40}
+                    dy={-8}
+                    connectorProps={{
+                      stroke: "#f8f8f8",
+                      strokeWidth: 1,
+                      strokeLinecap: "round"
+                    }}
+                   >
+                   <text
+                   fontSize={10} 
+                   fontFamily="Arial" 
+                   fontWeight="light" 
+                   alignmentBaseline="middle"
+                   >
+                     {geo.id}
+                   </text>  
+                   </Annotation>)
+                    :   
+                   (<Annotation
                     subject={centroid}
                     dx={0}
                     dy={0}
-                  >
+                    >
                     <text 
                     x={-6} 
-                    fontSize={8} 
+                    fontSize={10} 
                     fontFamily="Arial" 
                     fontWeight="light" 
                     alignmentBaseline="middle"
                     >
                       {geo.id}
                     </text>
-                  </Annotation>  
+                   </Annotation>) }  
                 </>
                 );
               })
             }
           </Geographies>
-        </ZoomableGroup>
+        {/* </ZoomableGroup> */}
       </ComposableMap>
     </Container>
   );
